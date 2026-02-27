@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para mi pedacito de cielo</title>
+
+<style>
+
+body{
+    margin:0;
+    height:100vh;
+    background: url("fondo.jpg") no-repeat center center fixed;
+    background-size: cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    font-family: 'Segoe UI', cursive;
+}
+
+/* Capa oscura suave para que se vea romántico */
+body::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.3);
+    z-index:0;
+}
+
+/* BOTÓN */
+.boton{
+    position:relative;
+    z-index:5;
+    background: linear-gradient(45deg,#ff4d88,#ff85a2);
+    color:white;
+    padding:20px 45px;
+    border:none;
+    border-radius:50px;
+    font-size:28px;
+    cursor:pointer;
+    box-shadow:0 0 20px #ff85a2;
+    transition:0.4s;
+}
+
+.boton:hover{
+    transform:scale(1.15);
+    box-shadow:0 0 40px #ff4d88;
+}
+
+/* CARTA */
+.carta{
+    position:absolute;
+    width:65%;
+    max-width:650px;
+    background: linear-gradient(180deg,#fff,#ffeef5);
+    padding:50px;
+    border-radius:25px;
+    box-shadow:0 30px 60px rgba(0,0,0,0.6);
+    text-align:center;
+    transform:scale(0) rotateX(90deg);
+    transition:1s ease;
+    z-index:4;
+    border:3px solid #ffb6c1;
+}
+
+.carta.abierta{
+    transform:scale(1) rotateX(0deg);
+}
+
+.carta h2{
+    font-size:32px;
+    color:#ff4d88;
+}
+
+.carta p{
+    font-size:20px;
+    color:#444;
+}
+
+/* GIRASOL */
+.girasol{
+    position:absolute;
+    width:70px;
+    height:70px;
+}
+
+.centro{
+    width:28px;
+    height:28px;
+    background:#6b3e26;
+    border-radius:50%;
+    position:absolute;
+    top:21px;
+    left:21px;
+    z-index:2;
+}
+
+.petalo{
+    width:18px;
+    height:35px;
+    background:gold;
+    border-radius:50%;
+    position:absolute;
+    top:0;
+    left:26px;
+    transform-origin:9px 35px;
+}
+
+.petalo:nth-child(1){ transform:rotate(0deg); }
+.petalo:nth-child(2){ transform:rotate(45deg); }
+.petalo:nth-child(3){ transform:rotate(90deg); }
+.petalo:nth-child(4){ transform:rotate(135deg); }
+.petalo:nth-child(5){ transform:rotate(180deg); }
+.petalo:nth-child(6){ transform:rotate(225deg); }
+.petalo:nth-child(7){ transform:rotate(270deg); }
+.petalo:nth-child(8){ transform:rotate(315deg); }
+
+@keyframes explosion{
+    0%{
+        transform:translate(0,0) scale(0);
+        opacity:1;
+    }
+    100%{
+        transform:translate(var(--x), var(--y)) scale(1.3);
+        opacity:0;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<button class="boton" onclick="explosion()">Para mi pedacito de cielo 💛</button>
+
+<div class="carta" id="carta">
+    <h2>Mi pedacito de cielo 🌻</h2>
+    <p>
+        Aquí va tu carta hermosa... 💌✨<br><br>
+        Escribe algo súper especial, romántico, bonito y sincero.<br>
+        Que cuando lo lea, sonría como nunca 💛
+    </p>
+</div>
+
+<script>
+
+function crearGirasol(x,y){
+    const flor = document.createElement("div");
+    flor.classList.add("girasol");
+    flor.style.left = "50%";
+    flor.style.top = "50%";
+    flor.style.setProperty('--x', x);
+    flor.style.setProperty('--y', y);
+    flor.style.animation = "explosion 1.2s ease-out forwards";
+
+    for(let i=0;i<8;i++){
+        const petalo = document.createElement("div");
+        petalo.classList.add("petalo");
+        flor.appendChild(petalo);
+    }
+
+    const centro = document.createElement("div");
+    centro.classList.add("centro");
+    flor.appendChild(centro);
+
+    document.body.appendChild(flor);
+
+    setTimeout(()=>{
+        flor.remove();
+    },1200);
+}
+
+function explosion(){
+    document.querySelector(".boton").style.display="none";
+
+    for(let i=0;i<35;i++){
+        let x = (Math.random()*1000 - 500) + "px";
+        let y = (Math.random()*800 - 400) + "px";
+        crearGirasol(x,y);
+    }
+
+    setTimeout(()=>{
+        document.getElementById("carta").classList.add("abierta");
+    },900);
+}
+
+</script>
+
+</body>
+</html>
